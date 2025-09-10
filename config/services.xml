@@ -10,7 +10,6 @@
     <service id="OneToMany\PdfToImage\Action\ReadFileAction"/>
     <service id="OneToMany\PdfToImage\Contract\Action\RasterizeFileActionInterface" alias="OneToMany\PdfToImage\Action\RasterizeFileAction"/>
     <service id="OneToMany\PdfToImage\Contract\Action\ReadFileActionInterface" alias="OneToMany\PdfToImage\Action\ReadFileAction"/>
-
     <!-- Raster Clients -->
     <service id="OneToMany\PdfToImage\Client\Mock\MockRasterClient">
       <tag name="1tomany.raster_client" key="mock"/>
