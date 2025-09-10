@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
   <parameters>
-    <parameter key="1tomany.rasterization_service" trim="true">poppler</parameter>
+    <parameter key="1tomany.rasterization_client" trim="true">poppler</parameter>
   </parameters>
   <services>
     <defaults autowire="true" autoconfigure="true"/>
-    <service id="OneToMany\PdfToImage\Action\RasterizeFileAction"/>
-    <service id="OneToMany\PdfToImage\Service\MockRasterService">
-      <tag name="1tomany.raster_service" key="mock"/>
+    <service id="OneToMany\PdfToImage\Contract\Action\RasterizeFileActionInterface"/>
+    <service id="OneToMany\PdfToImage\Contract\Action\ReadFileActionInterface"/>
+    <service id="OneToMany\PdfToImage\Client\Mock\MockRasterClient">
+      <tag name="1tomany.raster_client" key="mock"/>
     </service>
-    <service id="OneToMany\PdfToImage\Service\PopplerRasterService">
-      <tag name="1tomany.raster_service" key="poppler"/>
+    <service id="OneToMany\PdfToImage\Client\Poppler\PopplerRasterClient">
+      <tag name="1tomany.raster_client" key="poppler"/>
     </service>
-    <service id="OneToMany\PdfToImage\ServiceFactory">
-      <argument type="tagged_locator" tag="1tomany.raster_service" index-by="key"/>
+    <service id="OneToMany\PdfToImage\Factory\RasterClientFactory">
+      <argument type="tagged_locator" tag="1tomany.raster_client" index-by="key"/>
     </service>
-    <service id="OneToMany\PdfToImage\Service\RasterServiceInterface">
-      <factory service="OneToMany\PdfToImage\ServiceFactory" method="create"/>
-      <argument>%1tomany.rasterization_service%</argument>
+    <service id="OneToMany\PdfToImage\Contract\Client\ReadFileRequestInterface">
+      <factory service="OneToMany\PdfToImage\Factory\RasterClientFactory" method="create"/>
+      <argument>%1tomany.rasterization_client%</argument>
     </service>
   </services>
 </container>
