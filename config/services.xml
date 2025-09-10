@@ -5,8 +5,13 @@
   </parameters>
   <services>
     <defaults autowire="true" autoconfigure="true"/>
+    <!-- Actions -->
+    <service id="OneToMany\PdfToImage\Action\RasterizeFileAction"/>
+    <service id="OneToMany\PdfToImage\Action\ReadFileAction"/>
     <service id="OneToMany\PdfToImage\Contract\Action\RasterizeFileActionInterface" alias="OneToMany\PdfToImage\Action\RasterizeFileAction"/>
     <service id="OneToMany\PdfToImage\Contract\Action\ReadFileActionInterface" alias="OneToMany\PdfToImage\Action\ReadFileAction"/>
+
+    <!-- Raster Clients -->
     <service id="OneToMany\PdfToImage\Client\Mock\MockRasterClient">
       <tag name="1tomany.raster_client" key="mock"/>
     </service>
@@ -16,7 +21,7 @@
     <service id="OneToMany\PdfToImage\Factory\RasterClientFactory">
       <argument type="tagged_locator" tag="1tomany.raster_client" index-by="key"/>
     </service>
-    <service id="OneToMany\PdfToImage\Contract\Client\ReadFileRequestInterface">
+    <service id="OneToMany\PdfToImage\Contract\Client\RasterClientInterface">
       <factory service="OneToMany\PdfToImage\Factory\RasterClientFactory" method="create"/>
       <argument>%1tomany.rasterization_client%</argument>
     </service>
