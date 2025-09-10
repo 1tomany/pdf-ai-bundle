@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
   <parameters>
-    <parameter key="1tomany.rasterization_client" trim="true">poppler</parameter>
+    <parameter key="1tomany.raster_client" trim="true">poppler</parameter>
   </parameters>
   <services>
     <defaults autowire="true" autoconfigure="true"/>
@@ -10,7 +10,7 @@
     <service id="OneToMany\PdfToImage\Action\ReadFileAction"/>
     <service id="OneToMany\PdfToImage\Contract\Action\RasterizeFileActionInterface" alias="OneToMany\PdfToImage\Action\RasterizeFileAction"/>
     <service id="OneToMany\PdfToImage\Contract\Action\ReadFileActionInterface" alias="OneToMany\PdfToImage\Action\ReadFileAction"/>
-    <!-- Raster Clients -->
+    <!-- Clients -->
     <service id="OneToMany\PdfToImage\Client\Mock\MockRasterClient">
       <tag name="1tomany.raster_client" key="mock"/>
     </service>
@@ -22,7 +22,7 @@
     </service>
     <service id="OneToMany\PdfToImage\Contract\Client\RasterClientInterface">
       <factory service="OneToMany\PdfToImage\Factory\RasterClientFactory" method="create"/>
-      <argument>%1tomany.rasterization_client%</argument>
+      <argument>%1tomany.raster_client%</argument>
     </service>
   </services>
 </container>
