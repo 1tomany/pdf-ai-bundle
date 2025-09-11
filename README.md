@@ -7,12 +7,12 @@ composer require 1tomany/pdf-ai-bundle
 ```
 
 ## Usage
-Symfony will autowire the necessary classes after the bundle is installed.
+Symfony will autowire the necessary classes after the bundle is installed. Any constructor argument typed with `OneToMany\PDFAI\Contract\Action\ExtractDataActionInterface` or `OneToMany\PDFAI\Contract\Action\ReadMetadataActionInterface` will allow you to interact with the concrete extractor client via the `act()` method. 
 
 ```php
 <?php
 
-namespace App\Files;
+namespace App\File\Action\Handler;
 
 use OneToMany\PDFAI\Contract\Action\ExtractDataActionInterface;
 use OneToMany\PDFAI\Contract\Action\ReadMetadataActionInterface;
@@ -20,7 +20,7 @@ use OneToMany\PDFAI\Request\ExtractDataRequest;
 use OneToMany\PDFAI\Request\ExtractTextRequest;
 use OneToMany\PDFAI\Request\ReadMetadataRequest;
 
-final readonly class FileHandler
+final readonly class UploadFileHandler
 {
     public function __construct(
         private ReadMetadataActionInterface $readMetadataAction,
@@ -31,7 +31,9 @@ final readonly class FileHandler
     public function handle(string $filePath): void
     {
         // Read PDF metadata like page count
-        $metadata = $this->readMetadataAction->act(new ReadMetadataRequest($filePath));
+        $metadata = $this->readMetadataAction->act(
+            new ReadMetadataRequest($filePath)
+        );
 
         // Rasterize all pages of a PDF to a 150 DPI PNG
         $request = new ExtractDataRequest(
@@ -70,16 +72,40 @@ when@test:
 Without changing _any_ other code, Symfony will automatically inject the `MockExtractorClient` instead of the default `PopplerExtractorClient` for your tests.
 
 ### Extending
-Don't want to use Poppler? No problem! Create your own extractor class that implements the `OneToMany\PDFAI\Contract\Client\ExtractorClientInterface` interface and tag it accordingly:
+Don't want to use Poppler? No problem! Create your own extractor class that implements the `OneToMany\PDFAI\Contract\Client\ExtractorClientInterface` interface and tag it accordingly.
+
+```php
+<?php
+
+namespace App\File\Service\PDFAI\Client\Magick;
+
+use OneToMany\PDFAI\Contract\Client\ExtractorClientInterface;
+use OneToMany\PDFAI\Contract\Request\ExtractDataRequestInterface;
+use OneToMany\PDFAI\Contract\Request\ReadMetadataRequestInterface;
+use OneToMany\PDFAI\Contract\Response\MetadataResponseInterface;
+
+class MagickExtractorClient implements ExtractorClientInterface
+{
+    public function readMetadata(ReadMetadataRequestInterface $request): MetadataResponseInterface
+    {
+        // Add your implementation here
+    }
+    
+    public function extractData(ExtractDataRequestInterface $request): \Generator
+    {
+        // Add your implementation here
+    }
+}
+```
 
 ```yaml
 parameters:
-    1tomany.pdfai_extractor_client: 'imagemagick'
+    1tomany.pdfai_extractor_client: 'magick'
 
 services:
-    App\File\Extractor\Client\ImageMagickExtractorClient:
+    App\File\Service\PDFAI\Client\Magick\MagickExtractorClient:
         tags:
-            - { name: 1tomany.pdfai_extractor_client, key: imagemagick }
+            - { name: 1tomany.pdfai_extractor_client, key: magick }
 ```
 
 That's it! Again, without changing _any_ code, Symfony will automatically inject the correct extractor client whenever a constructor variable of type `OneToMany\PDFAI\Contract\Action\ExtractDataActionInterface` or `OneToMany\PDFAI\Contract\Action\ReadMetadataActionInterface` is present.
