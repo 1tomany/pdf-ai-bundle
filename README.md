@@ -108,7 +108,7 @@ services:
             - { name: 1tomany.pdfai_extractor_client, key: magick }
 ```
 
-That's it! Again, without changing _any_ code, Symfony will automatically inject the correct extractor client whenever a constructor variable of type `OneToMany\PDFAI\Contract\Action\ExtractDataActionInterface` or `OneToMany\PDFAI\Contract\Action\ReadMetadataActionInterface` is present.
+That's it! Again, without changing _any_ code, Symfony will automatically inject the correct extractor client for the action interfaces outlined above.
 
 ## Run Static Analysis
 ```shell
