@@ -1,22 +1,28 @@
 {
-    "name": "1tomany/pdf-to-image-bundle",
-    "description": "Symfony bundle for the 1tomany/pdf-to-image library",
+    "name": "1tomany/pdf-ai-bundle",
+    "description": "Symfony bundle for the 1tomany/pdf-ai library",
     "license": "MIT",
     "type": "symfony-bundle",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "keywords": [
+        "ai",
+        "llm",
         "pdf",
-        "poppler",
-        "pdftoppm",
-        "xpdf",
-        "pdf to image",
         "pdf2img",
-        "pdf2image"
+        "pdf2image",
+        "pdf2text",
+        "pdf2txt",
+        "pdfinfo",
+        "pdftoppm",
+        "pdf to image",
+        "pdf to text",
+        "poppler",
+        "xpdf"
     ],
     "require": {
-        "php": ">=8.4",
-        "1tomany/pdf-to-image": "^0.4.0",
+        "php": ">=8.2",
+        "1tomany/pdf-ai": "^0.5.0",
         "symfony/dependency-injection": "^7.2",
         "symfony/http-kernel": "^7.2"
     },
@@ -26,7 +32,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OneToMany\\PdfToImageBundle\\": "src/"
+            "OneToMany\\PDFAIBundle\\": "src/"
         }
     },
     "scripts": {
