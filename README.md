@@ -1,13 +1,13 @@
-# PDF to Image Converter Bundle for Symfony
+# PDFAI Bundle for Symfony
 More to come.
 
 ## Installation
-```
-composer require 1tomany/pdf-to-image-bundle
+```shell
+composer require 1tomany/pdf-ai-bundle
 ```
 
-## Static Analysis
-``` bash
+## Run Static Analysis
+```shell
 ./vendor/bin/phpstan
 ```
 
