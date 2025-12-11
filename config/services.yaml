@@ -14,7 +14,6 @@ services:
         class: OneToMany\PDFAI\Action\ReadMetadataAction
 
     OneToMany\PDFAI\Contract\Action\ExtractDataActionInterface: '@OneToMany\PDFAI\Action\ExtractDataAction'
-
     OneToMany\PDFAI\Contract\Action\ReadMetadataActionInterface: '@OneToMany\PDFAI\Action\ReadMetadataAction'
 
     # PDF Clients
