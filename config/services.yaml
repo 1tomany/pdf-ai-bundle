@@ -1,0 +1,36 @@
+parameters:
+    1tomany.pdfai_extractor_client: 'poppler'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # Actions
+    OneToMany\PDFAI\Action\ExtractDataAction:
+        class: OneToMany\PDFAI\Action\ExtractDataAction
+
+    OneToMany\PDFAI\Action\ReadMetadataAction:
+        class: OneToMany\PDFAI\Action\ReadMetadataAction
+
+    OneToMany\PDFAI\Contract\Action\ExtractDataActionInterface: '@OneToMany\PDFAI\Action\ExtractDataAction'
+
+    OneToMany\PDFAI\Contract\Action\ReadMetadataActionInterface: '@OneToMany\PDFAI\Action\ReadMetadataAction'
+
+    # PDF Clients
+    OneToMany\PDFAI\Client\Mock\MockExtractorClient:
+        tags:
+            - { name: 1tomany.pdfai_extractor_client, key: mock }
+
+    OneToMany\PDFAI\Client\Poppler\PopplerExtractorClient:
+        tags:
+            - { name: 1tomany.pdfai_extractor_client, key: poppler }
+
+    OneToMany\PDFAI\Contract\Client\ExtractorClientInterface:
+        factory: ['@OneToMany\PDFAI\Factory\ExtractorClientFactory', 'create']
+        arguments:
+            $id: '%1tomany.pdfai_extractor_client%'
+
+    OneToMany\PDFAI\Factory\ExtractorClientFactory:
+        arguments:
+            $container: !tagged_locator { tag: 1tomany.pdfai_extractor_client, index_by: key }
