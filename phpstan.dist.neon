@@ -1,6 +1,7 @@
 parameters:
-    level: 10
+    level: max
+
     paths:
         - ./src/
 
-    treatPhpDocTypesAsCertain: false
+    # treatPhpDocTypesAsCertain: false
